@@ -183,7 +183,8 @@ void FixDivide::post_integrate() {
         double splitF = 0.4 + (random->uniform() * 0.2);
         double parentMass = atom->rmass[i] * splitF;
         double childMass = atom->rmass[i] - parentMass;
-
+        int parentID = atom->tag[i];
+        
         double parentOuterMass = avec->outer_mass[i] * splitF;
         double childOuterMass = avec->outer_mass[i] - parentOuterMass;
 
@@ -293,7 +294,8 @@ void FixDivide::post_integrate() {
 
         atom->radius[n] = childRadius;
         avec->outer_radius[n] = childOuterRadius;
-
+        
+        atom->spawner[n]=parentID;
         modify->create_attribute(n);
 
         delete[] coord;

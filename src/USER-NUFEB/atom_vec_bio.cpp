@@ -117,6 +117,8 @@ void AtomVecBio::grow(int n)
   outer_radius = memory->grow(outer_radius,nmax,"atom:outerRadius");
   omega = memory->grow(atom->omega,nmax,3,"atom:omega");
   torque = memory->grow(atom->torque,nmax*comm->nthreads,3,"atom:torque");
+  
+  spawner = memory->grow(atom->spawner,nmax,"atom:spawner");
 
   if (atom->nextra_grow)
     for (int iextra = 0; iextra < atom->nextra_grow; iextra++)
@@ -160,6 +162,8 @@ void AtomVecBio::copy(int i, int j, int delflag)
   omega[j][0] = omega[i][0];
   omega[j][1] = omega[i][1];
   omega[j][2] = omega[i][2];
+
+  spawner[j] = spawner[i];
 
   if (atom->nextra_grow)
     for (int iextra = 0; iextra < atom->nextra_grow; iextra++)

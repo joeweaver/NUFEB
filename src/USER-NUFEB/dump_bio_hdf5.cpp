@@ -114,6 +114,16 @@ void DumpBioHDF5::write() {
 	write_atoms_scalar(file, oss.str().c_str(), H5T_NATIVE_INT, atom->tag, oneperproc, offset);
 	H5Gclose(group);
       }
+    } else if (*it == "spawner") {
+      if (multifile) {
+	write_atoms_scalar(file, "spawner", H5T_NATIVE_INT, atom->spawner, oneperproc, offset);
+      } else {
+	hid_t group = H5Gopen(file, "spawner", H5P_DEFAULT);
+	std::ostringstream oss;
+	oss << "spawner/" << std::to_string(update->ntimestep);
+	write_atoms_scalar(file, oss.str().c_str(), H5T_NATIVE_INT, atom->spawner, oneperproc, offset);
+	H5Gclose(group);
+      } 
     } else if (*it == "type") {
       if (multifile) {
 	write_atoms_scalar(file, "type", H5T_NATIVE_INT, atom->type, oneperproc, offset);
@@ -360,6 +370,9 @@ void DumpBioHDF5::create_one_file() {
     if (*it == "id") {
       hid_t group = H5Gcreate(file, "id", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
       H5Gclose(group);
+    } else if (*it == "spawner") {
+      hid_t group = H5Gcreate(file, "spawner", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+      H5Gclose(group);
     } else if (*it == "type") {
       hid_t group = H5Gcreate(file, "type", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
       H5Gclose(group);
@@ -484,6 +497,8 @@ int DumpBioHDF5::parse_fields(int narg, char **arg) {
     } else if (strcmp(arg[iarg], "yie") == 0) {
       fields.push_back(arg[iarg]);
     } else if (strcmp(arg[iarg], "cat") == 0) {
+      fields.push_back(arg[iarg]);
+    } else if (strcmp(arg[iarg], "spawner") == 0) {
       fields.push_back(arg[iarg]);
     } else if (strcmp(arg[iarg], "ana") == 0) {
       fields.push_back(arg[iarg]);

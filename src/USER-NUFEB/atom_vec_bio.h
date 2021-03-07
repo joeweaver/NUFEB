@@ -74,6 +74,7 @@ class AtomVecBio : public AtomVec {
   int type_eps;             // itype of EPS
   int type_dead;            // itype of DEAD
 
+  int *spawner;
   class BIO *bio;
 
  private:

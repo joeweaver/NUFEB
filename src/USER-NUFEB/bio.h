@@ -81,7 +81,7 @@ class BIO : protected Pointers {
   void set_tcharge(int, char **);
   void set_kla(const char *);
   void set_group_mask();
-
+ 
   int find_typeid(char *name);
   int find_nuid(char *name);
 
