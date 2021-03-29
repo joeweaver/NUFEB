@@ -184,7 +184,12 @@ void FixDivide::post_integrate() {
         double parentMass = atom->rmass[i] * splitF;
         double childMass = atom->rmass[i] - parentMass;
         int parentID = atom->tag[i];
-        
+        int parentAncestor = atom->ancestor[i];
+        printf("Parent %d with ancestor %d is about to divide\n", parentID, parentAncestor);
+        if(parentAncestor == 0){
+//            atom->ancestor[i] = parentID;
+//    parentAncestor = parentID;
+        }
         double parentOuterMass = avec->outer_mass[i] * splitF;
         double childOuterMass = avec->outer_mass[i] - parentOuterMass;
 
@@ -296,6 +301,13 @@ void FixDivide::post_integrate() {
         avec->outer_radius[n] = childOuterRadius;
         
         atom->spawner[n]=parentID;
+        if(parentAncestor == 0){
+            atom->ancestor[n] = parentID;
+        }
+        else{
+            atom->ancestor[n] = parentAncestor;
+        }
+        
         modify->create_attribute(n);
 
         delete[] coord;

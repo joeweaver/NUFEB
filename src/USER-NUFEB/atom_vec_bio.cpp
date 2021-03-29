@@ -119,7 +119,8 @@ void AtomVecBio::grow(int n)
   torque = memory->grow(atom->torque,nmax*comm->nthreads,3,"atom:torque");
   
   spawner = memory->grow(atom->spawner,nmax,"atom:spawner");
-
+  ancestor = memory->grow(atom->ancestor,nmax,"atom:ancestor");
+  
   if (atom->nextra_grow)
     for (int iextra = 0; iextra < atom->nextra_grow; iextra++)
       modify->fix[atom->extra_grow[iextra]]->grow_arrays(nmax);
@@ -164,6 +165,7 @@ void AtomVecBio::copy(int i, int j, int delflag)
   omega[j][2] = omega[i][2];
 
   spawner[j] = spawner[i];
+  ancestor[j] = ancestor[i];
 
   if (atom->nextra_grow)
     for (int iextra = 0; iextra < atom->nextra_grow; iextra++)
